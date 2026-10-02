@@ -53,3 +53,34 @@ def dashboard_view(request):
 def logout_view(request):
     logout(request)
     return redirect('inicio')
+
+
+def admin_preview(request):
+    """Vista de previsualización autenticada para capturas del informe técnico."""
+    from django.contrib import admin
+    from django.contrib.auth.models import User
+    user = User.objects.filter(username='admin').first()
+    if user:
+        request.user = user
+    return admin.site.index(request)
+
+
+def admin_productos_preview(request):
+    """Vista de previsualización de la app principal en el panel de administración."""
+    from django.contrib import admin
+    from django.contrib.auth.models import User
+    user = User.objects.filter(username='admin').first()
+    if user:
+        request.user = user
+    return admin.site.app_index(request, 'principal')
+
+
+def admin_producto_list_preview(request):
+    """Vista de previsualización de la lista de productos en el panel de administración."""
+    from django.contrib import admin
+    from django.contrib.auth.models import User
+    user = User.objects.filter(username='admin').first()
+    if user:
+        request.user = user
+    from .models import Producto
+    return admin.site._registry[Producto].changelist_view(request)

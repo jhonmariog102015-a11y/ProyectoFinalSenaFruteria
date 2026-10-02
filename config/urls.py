@@ -5,12 +5,18 @@ from principal.views import (
     tienda_view,
     catalogo_frutas_view,
     dashboard_view,
-    logout_view
+    logout_view,
+    admin_preview,
+    admin_productos_preview,
+    admin_producto_list_preview
 )
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin-preview/', admin_preview, name='admin_preview'),
+    path('admin-preview/principal/', admin_productos_preview, name='admin_productos_preview'),
+    path('admin-preview/principal/producto/', admin_producto_list_preview, name='admin_producto_list_preview'),
     path('', inicio, name='inicio'),
     path('tienda/', tienda_view, name='tienda'),
     path('catalogo-frutas/', catalogo_frutas_view, name='catalogo_frutas'),
