@@ -11,6 +11,7 @@ def inicio(request):
     context = {
         'productos': productos,
         'categorias': categorias,
+        'total_productos': productos.count(),
     }
     return render(request, 'principal/inicio.html', context)
 

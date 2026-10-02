@@ -51,6 +51,8 @@ class Producto(models.Model):
         verbose_name="Categoría"
     )
     nombre = models.CharField(max_length=100, verbose_name="Nombre del Producto")
+    icono_emoji = models.CharField(max_length=10, default="🍎", verbose_name="Icono / Emoji")
+    origen = models.CharField(max_length=150, default="🌱 Cosecha: Hace 1 día • Finca El Campo", verbose_name="Origen / Cosecha")
     unidad_medida = models.CharField(max_length=20, default="kg", verbose_name="Unidad de Medida")
     brix_minimo = models.DecimalField(
         max_digits=4, decimal_places=2, default=0.00, verbose_name="°Brix Mínimo (Dulzor)"
@@ -74,7 +76,7 @@ class Producto(models.Model):
         db_table = "productos"
 
     def __str__(self):
-        return f"{self.nombre} - ${self.precio_venta_unitario:,.0f} / {self.unidad_medida}"
+        return f"{self.icono_emoji} {self.nombre} - ${self.precio_venta_unitario:,.0f} / {self.unidad_medida}"
 
 
 class Cliente(models.Model):

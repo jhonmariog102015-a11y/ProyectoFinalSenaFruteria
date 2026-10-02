@@ -17,8 +17,8 @@ class ProveedorAdmin(admin.ModelAdmin):
 
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('id_producto', 'nombre', 'categoria', 'precio_venta_unitario', 'stock_actual', 'unidad_medida', 'brix_minimo', 'estado')
-    search_fields = ('nombre', 'categoria__nombre')
+    list_display = ('id_producto', 'icono_emoji', 'nombre', 'categoria', 'precio_venta_unitario', 'stock_actual', 'unidad_medida', 'brix_minimo', 'estado')
+    search_fields = ('nombre', 'categoria__nombre', 'origen')
     list_filter = ('categoria', 'estado', 'unidad_medida')
     list_editable = ('precio_venta_unitario', 'stock_actual', 'estado')
 
