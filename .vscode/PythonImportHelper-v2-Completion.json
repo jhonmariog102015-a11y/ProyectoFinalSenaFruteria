@@ -57,15 +57,31 @@
         "documentation": {}
     },
     {
-        "label": "include",
-        "importPath": "django.urls",
-        "description": "django.urls",
+        "label": "views",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
         "isExtraImport": true,
-        "detail": "django.urls",
+        "detail": "django.contrib.auth",
+        "documentation": {}
+    },
+    {
+        "label": "logout",
+        "importPath": "django.contrib.auth",
+        "description": "django.contrib.auth",
+        "isExtraImport": true,
+        "detail": "django.contrib.auth",
         "documentation": {}
     },
     {
         "label": "dashboard_view",
+        "importPath": "principal.views",
+        "description": "principal.views",
+        "isExtraImport": true,
+        "detail": "principal.views",
+        "documentation": {}
+    },
+    {
+        "label": "index",
         "importPath": "principal.views",
         "description": "principal.views",
         "isExtraImport": true,
@@ -86,22 +102,6 @@
         "description": "principal.views",
         "isExtraImport": true,
         "detail": "principal.views",
-        "documentation": {}
-    },
-    {
-        "label": "views",
-        "importPath": "django.contrib.auth",
-        "description": "django.contrib.auth",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth",
-        "documentation": {}
-    },
-    {
-        "label": "logout",
-        "importPath": "django.contrib.auth",
-        "description": "django.contrib.auth",
-        "isExtraImport": true,
-        "detail": "django.contrib.auth",
         "documentation": {}
     },
     {
@@ -534,7 +534,7 @@
         "kind": 5,
         "importPath": "config.urls",
         "description": "config.urls",
-        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', inicio, name='inicio'),\n    path('dashboard/', dashboard_view, name='dashboard'),\n    path('accounts/login/', auth_views.LoginView.as_view(template_name='principal/login.html'), name='login'),\n    path('accounts/logout/', logout_view, name='logout'),\n]",
+        "peekOfCode": "urlpatterns = [\n    path('admin/', admin.site.urls),\n    path('', index, name='index'),\n    path('index/', index, name='index'),\n    path('inicio/', inicio, name='inicio'),\n    path('dashboard/', dashboard_view, name='dashboard'),\n    path('accounts/login/', auth_views.LoginView.as_view(template_name='principal/login.html'), name='login'),\n    path('accounts/logout/', logout_view, name='logout'),\n]",
         "detail": "config.urls",
         "documentation": {}
     },
@@ -557,11 +557,29 @@
         "documentation": {}
     },
     {
+        "label": "Categoria",
+        "kind": 6,
+        "importPath": "principal.models",
+        "description": "principal.models",
+        "peekOfCode": "class Categoria(models.Model):\n    nombre = models.CharField(max_length=100, unique=True)\n    descripcion = models.TextField(blank=True, null=True)\n    def __str__(self):\n        return self.nombre",
+        "detail": "principal.models",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "principal.views",
+        "description": "principal.views",
+        "peekOfCode": "def index(request):\n    return render(request, 'principal/index.html')\ndef inicio(request):\n    return render(request, 'principal/index.html')\n@login_required\ndef dashboard_view(request):\n    # Tu lógica del dashboard\n    return render(request, 'principal/dashboard.html')\ndef logout_view(request):\n    logout(request)",
+        "detail": "principal.views",
+        "documentation": {}
+    },
+    {
         "label": "inicio",
         "kind": 2,
         "importPath": "principal.views",
         "description": "principal.views",
-        "peekOfCode": "def inicio(request):\n    return render(request, 'principal/inicio.html')\n@login_required\ndef dashboard_view(request):\n    # Tu lógica del dashboard\n    return render(request, 'principal/dashboard.html')\ndef logout_view(request):\n    logout(request)\n    return redirect('inicio')",
+        "peekOfCode": "def inicio(request):\n    return render(request, 'principal/index.html')\n@login_required\ndef dashboard_view(request):\n    # Tu lógica del dashboard\n    return render(request, 'principal/dashboard.html')\ndef logout_view(request):\n    logout(request)\n    return redirect('inicio')",
         "detail": "principal.views",
         "documentation": {}
     },

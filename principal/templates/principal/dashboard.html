@@ -31,7 +31,7 @@
         <!-- Contenido -->
         <main class="dashboard-content">
             <h2 class="mb-4">Bienvenido al Panel</h2>
-            
+
             <div class="row">
                 <div class="col-md-6 mb-4">
                     <div class="dash-card">
@@ -46,6 +46,30 @@
                     </div>
                 </div>
             </div>
+
+            <h2>Lista de Productos Registrados</h2>
+            <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td>{{ producto.nombre }}</td>
+                        <td>{{ producto.precio }}</td>
+                        <td>{{ producto.stock }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" style="text-align: center;">No hay productos registrados todavía.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </main>
     </div>
 </body>
