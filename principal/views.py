@@ -5,15 +5,39 @@ from .models import Producto, Categoria
 
 
 def inicio(request):
-    # Consulta usando el ORM de Django con optimización de llaves foráneas
+    """
+    Vista principal de la tienda (Diseño 4: Mercado Multi de jira_actividad).
+    Renderiza los productos y categorías directamente desde la base de datos con el ORM.
+    """
     productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
     categorias = Categoria.objects.all()
     context = {
+        'titulo': 'El Paso Frutería — Diseño 4: Mercado Multi',
         'productos': productos,
         'categorias': categorias,
         'total_productos': productos.count(),
     }
-    return render(request, 'principal/inicio.html', context)
+    return render(request, 'fruteria/tienda.html', context)
+
+
+def tienda_view(request):
+    """Alias para la ruta /tienda/."""
+    return inicio(request)
+
+
+def catalogo_frutas_view(request):
+    """
+    Vista del catálogo especializado de frutas de El Paso Frutería (Diseño de jira_actividad).
+    """
+    productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
+    categorias = Categoria.objects.all()
+    context = {
+        'titulo': 'Catálogo de Frutas Frescas — El Paso Frutería',
+        'productos': productos,
+        'categorias': categorias,
+        'total_productos': productos.count(),
+    }
+    return render(request, 'fruteria/catalogo_frutas.html', context)
 
 
 @login_required
