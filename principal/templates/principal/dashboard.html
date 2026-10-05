@@ -2,75 +2,473 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Panel Administrativo - El Paso Mercado Campesino</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tu archivo CSS independiente para el dashboard -->
-    <link rel="stylesheet" href="{% static 'panel.css' %}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FINEbank — Dashboard</title>
+  <link rel="stylesheet" href="{% static 'panel.css' %}">
+
+
 </head>
+
 <body>
-    <!-- Aquí va la estructura de tu dashboard -->
-    <div class="dashboard-container">
-        <!-- Sidebar -->
-        <nav class="dashboard-sidebar">
-            <h4>Panel Admin</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link active" href="#">Resumen</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Productos</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Pedidos</a></li>
-                <li class="nav-item mt-4">
-                    <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
-                        <button type="submit" class="nav-link text-danger border-0 bg-transparent">Cerrar Sesión</button>
-                    </form>
-                </li>
-            </ul>
-        </nav>
+  <div class="dashboard">
 
-        <!-- Contenido -->
-        <main class="dashboard-content">
-            <h2 class="mb-4">Bienvenido al Panel</h2>
+    <aside class="sidebar">
+      <div class="logo">Panel Administrativo </span></div>
 
-            <div class="row">
-                <div class="col-md-6 mb-4">
-                    <div class="dash-card">
-                        <h5>Productos Totales</h5>
-                        <h3>{{ total_productos }}</h3>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="dash-card">
-                        <h5>Usuarios Registrados</h5>
-                        <h3>{{ total_usuarios }}</h3>
-                    </div>
-                </div>
+      <nav class="navigation" aria-label="Main navigation">
+        <a class="active" href="#overview" aria-current="page">
+          <span class="nav-icon">▦</span> Overview
+        </a>
+        <a href="#balance">
+          <span class="nav-icon">▣</span> Balances
+        </a>
+        <a href="#transactions">
+          <span class="nav-icon">↗</span> Transactions
+        </a>
+        <a href="#bills">
+          <span class="nav-icon">▤</span> Bills
+        </a>
+        <a href="#expenses">
+          <span class="nav-icon">▧</span> Expenses
+        </a>
+        <a href="#goals">
+          <span class="nav-icon">⚑</span> Goals
+        </a>
+        <a href="#settings">
+          <span class="nav-icon">⚙</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <a class="logout" href="#logout">
+          <span class="nav-icon">↪</span> Logout
+        </a>
+
+        <div class="profile">
+          <div class="avatar">TZ</div>
+          <div>
+            <strong>Tanzir</strong>
+            <small>View profile</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main" id="overview">
+      <header class="topbar">
+        <div class="greeting">
+          <h1>Hello Tanzir</h1>
+          <span class="date">» &nbsp; May 19, 2023</span>
+        </div>
+
+        <div class="header-actions">
+          <button class="notification" aria-label="Notifications">♟</button>
+          <label class="search">
+            <input
+              type="search"
+              placeholder="Search here"
+              aria-label="Search"
+            >
+            <span aria-hidden="true">⌕</span>
+          </label>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="dashboard-products" aria-labelledby="products-heading">
+          <div class="stats-row">
+            <div class="dash-card">
+              <h5>Productos Totales</h5>
+              <h3>{{ total_productos }}</h3>
+            </div>
+            <div class="dash-card">
+              <h5>Usuarios Registrados</h5>
+              <h3>{{ total_usuarios }}</h3>
+            </div>
+          </div>
+
+          <div class="products-table-container">
+            <h2 id="products-heading">Lista de Productos Registrados</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Precio</th>
+                  <th scope="col">Stock</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for producto in productos %}
+                <tr>
+                  <td>{{ producto.nombre }}</td>
+                  <td>{{ producto.precio }}</td>
+                  <td>{{ producto.stock }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td class="empty-products" colspan="3">No hay productos registrados todavía.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="summary-grid">
+
+          <section id="balance">
+            <div class="section-heading">
+              <h2>Total Balance</h2>
             </div>
 
-            <h2>Lista de Productos Registrados</h2>
-            <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for producto in productos %}
-                    <tr>
-                        <td>{{ producto.nombre }}</td>
-                        <td>{{ producto.precio }}</td>
-                        <td>{{ producto.stock }}</td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="3" style="text-align: center;">No hay productos registrados todavía.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </main>
-    </div>
+            <div class="panel">
+              <div class="panel-top">
+                <span class="amount">$240,390</span>
+                <span class="small">All Accounts</span>
+              </div>
+
+              <div class="bank-card">
+                <small>Account Type</small>
+                <strong>Credit Card</strong>
+                <div class="card-number">•••• •••• •••• 2598</div>
+
+                <div class="mastercard" aria-label="Mastercard">
+                  <i></i><i></i>
+                </div>
+
+                <div class="card-bottom">
+                  <span>$25,000</span>
+                  <span aria-hidden="true">➜</span>
+                </div>
+              </div>
+
+              <div class="card-pagination">
+                <span>‹ &nbsp; Previous</span>
+                <span class="dots"><i></i><i></i><i></i></span>
+                <span>Next &nbsp; ›</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="goals">
+            <div class="section-heading">
+              <h2>Goals</h2>
+            </div>
+
+            <div class="panel">
+              <div class="panel-top">
+                <span class="amount">
+                  $20,000 <span class="small">✎</span>
+                </span>
+                <span class="small">May, 2023</span>
+              </div>
+
+              <div class="goal-content">
+                <div>
+                  <div class="goal-item">
+                    <span class="symbol">♜</span>
+                    <div>
+                      <small>Target Achieved</small>
+                      <strong>$12,500</strong>
+                    </div>
+                  </div>
+
+                  <div class="goal-item">
+                    <span class="symbol">⚑</span>
+                    <div>
+                      <small>This month Target</small>
+                      <strong>$20,000</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="goal-chart">
+                  <div
+                    class="gauge"
+                    role="img"
+                    aria-label="Target achieved: $12,500 of $20,000"
+                  ></div>
+
+                  <div class="gauge-labels">
+                    <span>$0</span>
+                    <span>12.5K</span>
+                    <span>$20K</span>
+                  </div>
+                  <p>Target vs Achievement</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="bills">
+            <div class="section-heading">
+              <h2>Upcoming Bill</h2>
+              <a class="subtle-link" href="#bills">View All ›</a>
+            </div>
+
+            <div class="panel">
+              <div class="bill">
+                <div class="bill-date">
+                  <small>May</small>
+                  <strong>15</strong>
+                </div>
+                <div class="bill-info">
+                  <span class="brand">Figma</span>
+                  <p>Figma - Monthly</p>
+                  <small>Last Charge - 14 May, 2023</small>
+                </div>
+                <span class="bill-price">$150</span>
+              </div>
+
+              <div class="bill">
+                <div class="bill-date">
+                  <small>Jun</small>
+                  <strong>16</strong>
+                </div>
+                <div class="bill-info">
+                  <span class="brand adobe">Adobe</span>
+                  <p>Adobe - Yearly</p>
+                  <small>Last Charge - 17 Jun, 2022</small>
+                </div>
+                <span class="bill-price">$559</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="details-grid">
+          <section id="transactions">
+            <div class="section-heading">
+              <h2>Recent Transaction</h2>
+              <a class="subtle-link" href="#transactions">View All ›</a>
+            </div>
+
+            <div class="panel">
+              <div class="tabs" aria-label="Transaction categories">
+                <button class="active" type="button">All</button>
+                <button type="button">Revenue</button>
+                <button type="button">Expenses</button>
+              </div>
+
+              <div class="transaction">
+                <span class="transaction-icon">▣</span>
+                <div class="transaction-info">
+                  <strong>GTR 5</strong>
+                  <small>Gadget & Gear</small>
+                </div>
+                <div class="transaction-price">
+                  <strong>$160.00</strong>
+                  <small>17 May 2023</small>
+                </div>
+              </div>
+
+              <div class="transaction">
+                <span class="transaction-icon">♧</span>
+                <div class="transaction-info">
+                  <strong>Polo Shirt</strong>
+                  <small>XL fashions</small>
+                </div>
+                <div class="transaction-price">
+                  <strong>$20.00</strong>
+                  <small>17 May 2023</small>
+                </div>
+              </div>
+
+              <div class="transaction">
+                <span class="transaction-icon">▧</span>
+                <div class="transaction-info">
+                  <strong>Biriyani</strong>
+                  <small>Hajir Biriyani</small>
+                </div>
+                <div class="transaction-price">
+                  <strong>$10.00</strong>
+                  <small>17 May 2023</small>
+                </div>
+              </div>
+
+              <div class="transaction">
+                <span class="transaction-icon">▱</span>
+                <div class="transaction-info">
+                  <strong>Taxi Fare</strong>
+                  <small>Uber</small>
+                </div>
+                <div class="transaction-price">
+                  <strong>$12.00</strong>
+                  <small>17 May 2023</small>
+                </div>
+              </div>
+
+              <div class="transaction">
+                <span class="transaction-icon">▤</span>
+                <div class="transaction-info">
+                  <strong>Keyboard</strong>
+                  <small>Gadget & Gear</small>
+                </div>
+                <div class="transaction-price">
+                  <strong>$22.00</strong>
+                  <small>17 May 2023</small>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div>
+            <section>
+              <div class="section-heading">
+                <h2>Statistics</h2>
+              </div>
+
+              <div class="panel">
+                <div class="chart-top">
+                  <h3>Weekly Comparison &nbsp;⌄</h3>
+                  <div class="legend">
+                    <span><i></i>This week</span>
+                    <span><i></i>Last week</span>
+                  </div>
+                </div>
+
+                <div
+                  class="chart"
+                  role="img"
+                  aria-label="Weekly spending comparison from May 15 to May 21"
+                >
+                  <div class="y-axis">
+                    <span>$250</span>
+                    <span>$200</span>
+                    <span>$150</span>
+                    <span>$100</span>
+                    <span>$50</span>
+                    <span>$0</span>
+                  </div>
+
+                  <div class="plot">
+                    <div class="bar-group day-1">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>15 May</small>
+                    </div>
+
+                    <div class="bar-group day-2">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>16 May</small>
+                    </div>
+
+                    <div class="bar-group day-3">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>17 May</small>
+                    </div>
+
+                    <div class="bar-group day-4">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>18 May</small>
+                    </div>
+
+                    <div class="bar-group day-5">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>19 May</small>
+                    </div>
+
+                    <div class="bar-group day-6">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>20 May</small>
+                    </div>
+
+                    <div class="bar-group day-7">
+                      <div class="bars">
+                        <div class="bar"></div>
+                        <div class="bar previous"></div>
+                      </div>
+                      <small>21 May</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="expenses" id="expenses">
+              <div class="section-heading">
+                <h2>Expenses Breakdown</h2>
+                <span class="subtle-link">Compare to last month</span>
+              </div>
+
+              <div class="panel expenses-grid">
+                <div class="expense">
+                  <span class="expense-icon">⌂</span>
+                  <div>
+                    <small>Housing</small>
+                    <strong>$250.00</strong>
+                    <span class="change up">15% <b>↑</b></span>
+                  </div>
+                </div>
+
+                <div class="expense">
+                  <span class="expense-icon">♧</span>
+                  <div>
+                    <small>Food</small>
+                    <strong>$350.00</strong>
+                    <span class="change down">8% <b>↓</b></span>
+                  </div>
+                </div>
+
+                <div class="expense">
+                  <span class="expense-icon">▱</span>
+                  <div>
+                    <small>Transportation</small>
+                    <strong>$50.00</strong>
+                    <span class="change down">12% <b>↓</b></span>
+                  </div>
+                </div>
+
+                <div class="expense">
+                  <span class="expense-icon">▦</span>
+                  <div>
+                    <small>Entertainment</small>
+                    <strong>$80.00</strong>
+                    <span class="change up">15% <b>↑</b></span>
+                  </div>
+                </div>
+
+                <div class="expense">
+                  <span class="expense-icon">▢</span>
+                  <div>
+                    <small>Shopping</small>
+                    <strong>$420.00</strong>
+                    <span class="change up">25% <b>↑</b></span>
+                  </div>
+                </div>
+
+                <div class="expense">
+                  <span class="expense-icon">⋯</span>
+                  <div>
+                    <small>Others</small>
+                    <strong>$50.00</strong>
+                    <span class="change down">23% <b>↓</b></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 </html>

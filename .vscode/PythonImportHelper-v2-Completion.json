@@ -570,16 +570,7 @@
         "kind": 2,
         "importPath": "principal.views",
         "description": "principal.views",
-        "peekOfCode": "def index(request):\n    return render(request, 'principal/index.html')\ndef inicio(request):\n    return render(request, 'principal/index.html')\n@login_required\ndef dashboard_view(request):\n    # Tu lógica del dashboard\n    return render(request, 'principal/dashboard.html')\ndef logout_view(request):\n    logout(request)",
-        "detail": "principal.views",
-        "documentation": {}
-    },
-    {
-        "label": "inicio",
-        "kind": 2,
-        "importPath": "principal.views",
-        "description": "principal.views",
-        "peekOfCode": "def inicio(request):\n    return render(request, 'principal/index.html')\n@login_required\ndef dashboard_view(request):\n    # Tu lógica del dashboard\n    return render(request, 'principal/dashboard.html')\ndef logout_view(request):\n    logout(request)\n    return redirect('inicio')",
+        "peekOfCode": "def index(request):\n    # 2. Traes todos los productos de la base de datos y cuentas el total\n    productos = Producto.objects.all()\n    total_productos = productos.count()\n    # 3. Creas un diccionario con los datos para enviarlos al HTML\n    context = {\n        'productos': productos,\n        'total_productos': total_productos,\n    }\n    # 4. Pasas el context como tercer argumento en el render",
         "detail": "principal.views",
         "documentation": {}
     },
@@ -597,7 +588,7 @@
         "kind": 2,
         "importPath": "principal.views",
         "description": "principal.views",
-        "peekOfCode": "def logout_view(request):\n    logout(request)\n    return redirect('inicio')",
+        "peekOfCode": "def logout_view(request):\n    logout(request)\n    return redirect('index')",
         "detail": "principal.views",
         "documentation": {}
     },
