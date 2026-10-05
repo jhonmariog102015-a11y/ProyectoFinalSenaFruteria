@@ -6,13 +6,26 @@ from .models import Producto, Categoria
 
 def inicio(request):
     """
-    Vista principal de la tienda (Diseño 4: Mercado Multi de jira_actividad).
+    Vista principal de la tienda (Diseño de Guti: Mercado Campesino).
     Renderiza los productos y categorías directamente desde la base de datos con el ORM.
     """
     productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
     categorias = Categoria.objects.all()
     context = {
-        'titulo': 'El Paso Frutería — Diseño 4: Mercado Multi',
+        'titulo': 'El Paso Frutería — Mercado Campesino',
+        'productos': productos,
+        'categorias': categorias,
+        'total_productos': productos.count(),
+    }
+    return render(request, 'principal/index.html', context)
+
+
+def tienda_view(request):
+    """Vista de tienda alternativa del proyecto formativo."""
+    productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
+    categorias = Categoria.objects.all()
+    context = {
+        'titulo': 'El Paso Frutería — Tienda Oficial',
         'productos': productos,
         'categorias': categorias,
         'total_productos': productos.count(),
@@ -20,14 +33,9 @@ def inicio(request):
     return render(request, 'fruteria/tienda.html', context)
 
 
-def tienda_view(request):
-    """Alias para la ruta /tienda/."""
-    return inicio(request)
-
-
 def catalogo_frutas_view(request):
     """
-    Vista del catálogo especializado de frutas de El Paso Frutería (Diseño de jira_actividad).
+    Vista del catálogo especializado de frutas de El Paso Frutería con filtrado reactivo.
     """
     productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
     categorias = Categoria.objects.all()
@@ -42,17 +50,26 @@ def catalogo_frutas_view(request):
 
 @login_required
 def dashboard_view(request):
-    productos = Producto.objects.select_related('categoria').all()
+    """
+    Panel administrativo estilizado (Dashboard de Guti con métricas en tiempo real).
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+    productos = Producto.objects.select_related('categoria').all().order_by('id_producto')
+    categorias = Categoria.objects.all()
     total_productos = productos.count()
+    total_usuarios = User.objects.count()
     return render(request, 'principal/dashboard.html', {
         'productos': productos,
+        'categorias': categorias,
         'total_productos': total_productos,
+        'total_usuarios': total_usuarios,
     })
 
 
 def logout_view(request):
     logout(request)
-    return redirect('inicio')
+    return redirect('index')
 
 
 def admin_preview(request):

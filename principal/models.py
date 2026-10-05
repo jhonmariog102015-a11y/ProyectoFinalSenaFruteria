@@ -76,6 +76,16 @@ class Producto(models.Model):
         verbose_name_plural = "Productos"
         db_table = "productos"
 
+    @property
+    def precio(self):
+        """Compatibilidad con plantillas que usan producto.precio"""
+        return self.precio_venta_unitario
+
+    @property
+    def stock(self):
+        """Compatibilidad con plantillas que usan producto.stock"""
+        return int(self.stock_actual)
+
     def __str__(self):
         return f"{self.icono_emoji} {self.nombre} - ${self.precio_venta_unitario:,.0f} / {self.unidad_medida}"
 
